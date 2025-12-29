@@ -35,13 +35,15 @@ export default async function PlayerPage({
   }
 
   // Map rápido para hero_id -> data (para el client)
-  const heroMap: Record<number, { name: string; img: string }> = {};
-  for (const h of heroStats) {
-    heroMap[h.id] = {
-      name: h.localized_name,
+  const heroMap: Record<number, { name: string; img: string }> = Object.fromEntries(
+  heroStats.map((h: any) => [
+    h.id,
+    {
+      name: h.localized_name ?? "Unknown",
       img: buildHeroImage(h),
-    };
-  }
+    },
+  ])
+);
 
   const topHeroes = heroes
     .sort((a, b) => b.games - a.games)
@@ -121,7 +123,10 @@ export default async function PlayerPage({
       </section>
 
       {/* MATCHES con cargar más */}
-      <RecentMatches accountId={accountId} heroMap={heroMap} initialMatches={lastMatches} />
+      <RecentMatches 
+      accountId={accountId} 
+      heroMap={heroMap} 
+      initialMatches={lastMatches} />
     </div>
   );
 }

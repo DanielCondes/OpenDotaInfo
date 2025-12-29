@@ -5,9 +5,11 @@ import { useState } from "react";
 export default function RecentMatches({
   accountId,
   initialMatches,
+  heroMap,
 }: {
   accountId: string;
   initialMatches: any[];
+  heroMap: Record<number, { name: string; img: string }>;
 }) {
   const [matches, setMatches] = useState(initialMatches);
   const [openMatch, setOpenMatch] = useState<number | null>(null);
