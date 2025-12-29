@@ -19,7 +19,18 @@ export interface PlayerData {
 // =======================
 // PLAYER INFO (BASE)
 // =======================
+export async function getPlayerMatches(id: string, limit = 10, offset = 0) {
+  const res = await fetch(
+    `https://api.opendota.com/api/players/${id}/matches?limit=${limit}&offset=${offset}`,
+    { cache: "no-store" }
+  );
 
+  if (!res.ok) {
+    throw new Error("No se pudo obtener matches del jugador");
+  }
+
+  return res.json();
+}
 export async function getPlayerInfo(id: string): Promise<PlayerData> {
   const res = await fetch(`https://api.opendota.com/api/players/${id}`, {
     next: { revalidate: 10 },
